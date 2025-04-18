@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Signup() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const signupSchema = Yup.object({
@@ -13,14 +14,16 @@ function Signup() {
   });
 
   return (
+    // <div className="auth-background">
     <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
-      <div className="col-md-38 col-lg-16 border p-5 shadow rounded bg-white">
+      <div className="col-md-8 col-lg-6 border p-5 shadow rounded bg-white" style={{ width: '100%', maxWidth: '500px' }}>
         <h3 className="text-center mb-4">Signup</h3>
         <Formik
           initialValues={{ name: '', email: '', password: '' }}
           validationSchema={signupSchema}
           onSubmit={(values) => {
-            alert('Signed up:\n' + JSON.stringify(values, null, 2));
+            // alert('Signed up:\n' + JSON.stringify(values, null, 2));
+            navigate('/Home')
           }}
         >
           <Form>
@@ -64,6 +67,7 @@ function Signup() {
         </Formik>
       </div>
     </div>
+    // </div>
   );
 }
 

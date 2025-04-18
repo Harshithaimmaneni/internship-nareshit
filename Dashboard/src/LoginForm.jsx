@@ -11,7 +11,8 @@ function Login() {
         password: Yup.string().required("Password requried"),
     });
   return (
-    <div className="container">
+  
+    <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
         <div>
             <h3 className="text-center">Login</h3>
             <Formik
@@ -41,8 +42,11 @@ function Login() {
                             </div>
                             <ErrorMessage name="password" component="div" className="text-danger" />
                         </div>
+                        
+                        <div  className="mt-3">
+                        <button type="submit" className="btn btn-success" >Signup</button> 
+                        </div>
 
-                        <button type="submit" className="btn btn-success" >Signup</button>
                         {/* <div className="">
                             Already have an account ? <Link to="/">Login</Link>
                         </div> */}
@@ -52,6 +56,7 @@ function Login() {
         </div>
       
     </div>
+    
   );
 }
 
