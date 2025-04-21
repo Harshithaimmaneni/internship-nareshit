@@ -24,6 +24,7 @@ a:hover {
 
 body {
   margin: 0;
+  /* padding-top: -1px; */
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -51,6 +52,9 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+.sidebar {
+  background-color: #e3f2fd; /* Bootstrap light */
 }
 
 /* index.css */

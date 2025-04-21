@@ -9,9 +9,10 @@ function Home() {
     <Sidebar />
     <div>
       
-      <div className="p-4" style={{ flex: 1 }}>
-        <h1>Welcome to App</h1>
-        <p>This is your dashboard.</p>
+    <div style={{ marginLeft: '200px', paddingTop: '70px', minHeight: '100vh' }}>
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+          <h1>Welcome to App</h1>
+        </div>
       </div>
     </div>
   </div>

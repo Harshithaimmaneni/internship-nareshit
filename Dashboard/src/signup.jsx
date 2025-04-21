@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Signup() {
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const signupSchema = Yup.object({
@@ -22,8 +21,8 @@ function Signup() {
           initialValues={{ name: '', email: '', password: '' }}
           validationSchema={signupSchema}
           onSubmit={(values) => {
-            // alert('Signed up:\n' + JSON.stringify(values, null, 2));
-            navigate('/Home')
+           alert('Signed up:\n' + JSON.stringify(values, null, 2));
+            
           }}
         >
           <Form>

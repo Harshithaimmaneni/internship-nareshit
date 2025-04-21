@@ -5,6 +5,9 @@ import Signup from './signup';
 import Home from './home';
 import Header from './header';
 import Sidebar from './sidebar';
+import Dashboard from "./dashboard";
+import NewUser from "./NewUser";
+import Profile from "./profile";
 
 
 function App() {
@@ -14,8 +17,10 @@ function App() {
         <Route path="/" element={<Signup />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Home" element={<Home />} /> 
-        <Route path="/Sidebar" element={<Sidebar />} />
-        <Route path="/Header" element={<Header />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/new-user" element={<NewUser />} />
+
       </Routes>
     </div>
   );
