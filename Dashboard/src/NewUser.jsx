@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 function UserForm() {
   const [users, setUsers] = useState([]);
@@ -16,11 +17,19 @@ function UserForm() {
     dob: Yup.date().required('Date of birth required'),
   });
 
+  // Fetch users initially
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const res = await axios.get('http://localhost:5000/api/users');
+      setUsers(res.data);
+    };
+    fetchUsers();
+  }, []);
+
   return (
     <div className="container mt-4">
       <div className="row">
-        {/* Form on the left */}
-        <div className="col-md-5">
+        <div className="col-md-4 ms-auto">
           <h4>{editIndex !== null ? 'Edit User' : 'Register User'}</h4>
           <Formik
             initialValues={{
@@ -31,16 +40,23 @@ function UserForm() {
               dob: '',
             }}
             validationSchema={userSchema}
-            onSubmit={(values, { resetForm }) => {
-              if (editIndex !== null) {
-                const updatedUsers = [...users];
-                updatedUsers[editIndex] = values;
-                setUsers(updatedUsers);
-                setEditIndex(null);
-              } else {
-                setUsers([...users, values]);
+            onSubmit={async (values, { resetForm }) => {
+              try {
+                if (editIndex !== null) {
+                  const userId = users[editIndex]._id;
+                  await axios.put(`http://localhost:5000/api/users/${userId}`, values);
+                  const updatedUsers = [...users];
+                  updatedUsers[editIndex] = { ...values, _id: userId };
+                  setUsers(updatedUsers);
+                  setEditIndex(null);
+                } else {
+                  const response = await axios.post('http://localhost:5000/api/users', values);
+                  setUsers([...users, response.data]);
+                }
+                resetForm();
+              } catch (error) {
+                console.error('Error submitting form:', error);
               }
-              resetForm();
             }}
           >
             {({ setValues }) => (
@@ -82,7 +98,6 @@ function UserForm() {
           </Formik>
         </div>
 
-        {/* Table on the right */}
         <div className="col-md-7">
           <h4 className="mb-3">User Details</h4>
           {users.length === 0 ? (
@@ -117,9 +132,8 @@ function UserForm() {
                             gender: user.gender,
                             dob: user.dob,
                           };
-                          document.querySelector('form').scrollIntoView({ behavior: 'smooth' }); // scroll to top
+                          document.querySelector('form').scrollIntoView({ behavior: 'smooth' });
                           setTimeout(() => {
-                            // trigger inside Formik's context
                             const formik = document.querySelector('[name="username"]')?.closest('form').__formikProps;
                             if (formik) {
                               formik.setValues(formValues);
@@ -130,14 +144,16 @@ function UserForm() {
                         Edit
                       </button>
                       <button
-          className="btn btn-danger btn-sm"
-          onClick={() => {
-            const updatedUsers = users.filter((_, i) => i !== index);
-            setUsers(updatedUsers);
-        }}
-        >
-          Delete
-        </button>
+                        className="btn btn-danger btn-sm"
+                        onClick={async () => {
+                          const userId = users[index]._id;
+                          await axios.delete(`http://localhost:5000/api/users/${userId}`);
+                          const updatedUsers = users.filter((_, i) => i !== index);
+                          setUsers(updatedUsers);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}

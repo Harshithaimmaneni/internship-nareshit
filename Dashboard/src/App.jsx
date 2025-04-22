@@ -1,28 +1,66 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from './LoginForm';
-import Signup from './signup';
-import Home from './home';
-import Header from './header';
-import Sidebar from './sidebar';
+import Login from "./LoginForm";
+import Signup from "./signup";
+import Home from "./home";
+import Header from "./header";
+import Sidebar from "./sidebar";
 import Dashboard from "./dashboard";
 import NewUser from "./NewUser";
 import Profile from "./profile";
 
+// Optional Layout Component
+const Layout = ({ children }) => (
+  <div className="d-flex">
+    <Sidebar />
+    <div className="flex-grow-1">
+      <Header />
+      <div className="container mt-4">{children}</div>
+    </div>
+  </div>
+);
 
 function App() {
   return (
-    <div className="container mt-4">
-      <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Home" element={<Home />} /> 
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/new-user" element={<NewUser />} />
+    <Routes>
+      
+      <Route path="/" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
 
-      </Routes>
-    </div>
+     
+      <Route
+        path="/home"
+        element={
+          <Layout>
+            <Home />
+          </Layout>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <Layout>
+            <Dashboard />
+          </Layout>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <Layout>
+            <Profile />
+          </Layout>
+        }
+      />
+      <Route
+        path="/profile/new-user"
+        element={
+          <Layout>
+            <NewUser />
+          </Layout>
+        }
+      />
+    </Routes>
   );
 }
 
